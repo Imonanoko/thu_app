@@ -1,0 +1,14 @@
+{
+  "gpsrunner": "開始鑑測",
+  "Devicemove": "登出裝置",
+  "studentinfo": "學生資料",
+  "ID": "學號",
+  "PSD":  "密碼",
+  "login": "登入",
+  "1":"請輸入密碼",
+  "RunData" : "數據",
+  "Timing" : "時間計時:",
+  "History" : "歷史資料",
+  "gpsscore" : "個人成績",
+  "allscore" : "已完成圈數"
+}
