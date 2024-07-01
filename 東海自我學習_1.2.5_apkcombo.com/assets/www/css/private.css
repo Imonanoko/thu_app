@@ -1,0 +1,136 @@
+@charset "UTF-8";
+html, body {
+  color: #2d3340;
+  font-size: 16px;
+  height: 100%;
+  position: relative;
+}
+
+body, div, ul, ol, li, h1, h2, h3, h4, h5, h6, form, input, button, textarea, p, blockquote, th, td {
+  margin: 0;
+  padding: 0;
+  font-family: Verdana, "Microsoft JhengHei", \5FAE\8EDF\6B63\9ED1\9AD4, \65B0\7D30\660E\9AD4, Arial, Helvetica, sans-serif;
+  font-size: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  display: inline;
+  font-size: 100%;
+  font-weight: inherit;
+}
+
+img {
+  border: 0;
+}
+
+ol, ul, li {
+  list-style: none;
+}
+
+.clear {
+  clear: both;
+}
+
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.oby {
+  position: relative;
+  min-height: 100%;
+  margin-top: 24px;
+}
+
+.wfx {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  *zoom: 1;
+}
+
+.wfx:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#ctx {
+  min-width: 95%;
+  padding: 0 10px 40px;
+}
+
+
+.ctx {
+  float: left;
+  width: 95%;
+  margin: 0 0 20px 15px;
+}
+
+.wctx {
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 20px;
+  *zoom: 1;
+}
+
+.wctx:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.ima {
+  color: #333;
+}
+
+.ima h1 {
+  display: block;
+  line-height: 1.29em;
+  margin: 0 0 0.8em;
+  font-weight: bolder;
+  font-size: 28px;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #ddd;
+}
+
+.ima h2 {
+  line-height: 1.29em;
+  margin: 1em 0 0.5em;
+  font-weight: bolder;
+  position: relative;
+  font-size: 18px;
+  display: inline-block;
+  background: #fff;
+  padding-right: 15px;
+  color: #007fbc;
+}
+
+.ima h3 {
+  font-weight: bolder;
+  margin: 0.5em 0;
+}
+
+.ima p {
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.54;
+}
+
+.ima .ctx ul li ul {
+  padding-left: 28px;
+}
+
+.ima .ctx ul li ul li {
+  list-style: decimal;
+  font-size: 15px;
+}
+
+.ima .ctx ul li ul li ul {
+  margin-bottom: 10px;
+}
+
+.ima .ctx ul li ul li ul li {
+  list-style: disc;
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<title>東海自我學習</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Ion Icon Fonts-->
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	
+	<link rel="stylesheet" href="css/button.css">
+
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="css/flexslider.css">
+
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/owl.theme.default.min.css">
+	
+	<!-- Date Picker -->
+	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
+	<!-- Flaticons  -->
+	<link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="css/style.css">
+
+	<link rel="stylesheet" href="css/frt-jason.css">
+
+	<script src="cordova.js"></script>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/frt-include.js"></script>
+	<script src="js/frt-jason.js"></script>
+	<script src="js/frt-lbs-neweraart.js"></script>
+	
+	<script src="js/lang.js"></script>
+
+	<script type="text/javascript">
+		function onBodyLoad() {
+		//瀏覽器語系
+		var Blan = (navigator.language || navigator.browserLanguage).toLowerCase();
+		//設定檔國家
+		if (Blan=='zh-tw'||Blan=='zh-cn'){
+				$.getJSON('languge/zh.json', translate);//變更語系預設抓中文
+		}else{
+			$.getJSON('languge/en.json', translate);//變更語系預設抓英文
+		}
+
+		jQuery(document).ready(function ($) {
+			var sid = localStorage.getItem("id");
+			if (typeof sid === 'undefined' || sid === null || sid == '') {
+				if (Blan=='zh-tw'||Blan=='zh-cn'){
+                    alert('請先登入帳號');
+                }else{
+                    alert('Please login first');
+                }
+				window.location.assign('login.html');
+            	return;
+            }
+            // sessionStorage["GoPage"] = "task.html";
+		});
+
+		var forTable = $(".for-table tbody");
+		var log = JSON.parse(localStorage.getItem('runlog'));
+		//alert(localStorage.getItem('runlog'));
+		var jsonSum = log.length;
+		for (var i = 0; i < jsonSum; i++) {
+			forTable.append(
+				"<tr>" +
+					"<td><input type="+"radio"+" name="+"CK_Score"+" value="+i+"></td>" +
+					"<td>" + log[i].sTime + "</td>" +
+					"<td>" + log[i].alltime + "</td>" +
+					"<td>" + log[i].distance + "</td>" +
+				"</tr>");
+    	}
+
+	}
+	
+
+	</script>
+	</head>
+	<body id="gps-score" onload="onBodyLoad()">
+		
+	<!-- <div class="colorlib-loader"></div> -->
+	<div id="loader" style="display:none;"></div>
+
+	<div id="page"  style="margin-bottom: 60px;  min-height: 100%; ">
+		
+		<div w3-include-html="menu.html"></div>
+
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<!--p class="bread">關於牛耳</p>-->
+					</div>
+				</div>
+			</div>
+		</div>		
+		<div>
+			<div class="container">
+				<div class="row row-pb-lg">
+					
+					<div class="col-xs-12 col-sm-12">
+						<div class="about-wrap">
+							<h4><label tkey="History"></label></h4>					
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12">
+						<div class="about-wrap">
+							<span id="Check_Txt" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(214, 36, 36)"><label>
+								上傳同日已完成距離最多為2000公尺。溢出部分不計分。
+							</label></span>
+						</div>
+					</div>
+					
+					<div class="col-xs-12 col-sm-12">
+						<div class="about-wrap">
+							<table class="for-table" border="1">
+								<thead>
+									<tr>
+										<th></th>
+										<th>日期</th>
+										<th>秒數</th>
+										<th>距離</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+							<!--待補充-->
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<div w3-include-html="scorefooter.html"></div>
+
+	</div>
+<!-- 
+	<div style=position:relative>
+		<a href="#" class="myButton">START</a>
+	</div> -->
+	
+	<script>
+		includeHTML();
+	</script>
+	
+	<!-- popper -->
+	<script src="js/popper.min.js"></script>
+	<!-- bootstrap 4.1 -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- jQuery easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Flexslider -->
+	<script src="js/jquery.flexslider-min.js"></script>
+	<!-- Owl carousel -->
+	<script src="js/owl.carousel.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/magnific-popup-options.js"></script>
+	<!-- Date Picker -->
+	<script src="js/bootstrap-datepicker.js"></script>
+	<!-- Stellar Parallax -->
+	<script src="js/jquery.stellar.min.js"></script>
+	<!-- Main -->
+	<script src="js/main.js"></script>
+
+	</body>
+</html>
+

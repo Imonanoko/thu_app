@@ -1,0 +1,67 @@
+!!brut.androlib.meta.MetaInfo
+apkFileName: 東海自我學習_1.2.5_apkcombo.com.apk
+compressionType: false
+doNotCompress:
+- resources.arsc
+- META-INF/android.arch.core_runtime.version
+- META-INF/android.arch.lifecycle_livedata-core.version
+- META-INF/android.arch.lifecycle_runtime.version
+- META-INF/android.arch.lifecycle_viewmodel.version
+- META-INF/com.android.support_animated-vector-drawable.version
+- META-INF/com.android.support_appcompat-v7.version
+- META-INF/com.android.support_cardview-v7.version
+- META-INF/com.android.support_customtabs.version
+- META-INF/com.android.support_support-compat.version
+- META-INF/com.android.support_support-core-ui.version
+- META-INF/com.android.support_support-core-utils.version
+- META-INF/com.android.support_support-fragment.version
+- META-INF/com.android.support_support-media-compat.version
+- META-INF/com.android.support_support-v4.version
+- META-INF/com.android.support_support-vector-drawable.version
+- assets/www/css/css/mixins/_text-hide.css
+- assets/www/fonts/bootstrap/glyphicons-halflings-regular.woff2
+- png
+- jpg
+- assets/www/js/frt-Device.js
+- ogg
+isFrameworkApk: false
+packageInfo:
+  forcedPackageId: '127'
+  renameManifestPackage: null
+sdkInfo:
+  minSdkVersion: '19'
+  targetSdkVersion: '33'
+sharedLibrary: false
+sparseResources: false
+unknownFiles:
+  firebase-analytics-impl.properties: '8'
+  firebase-analytics.properties: '8'
+  firebase-common.properties: '8'
+  firebase-core.properties: '8'
+  firebase-iid-interop.properties: '8'
+  firebase-iid.properties: '8'
+  firebase-measurement-connector-impl.properties: '8'
+  firebase-measurement-connector.properties: '8'
+  firebase-messaging.properties: '8'
+  play-services-ads-identifier.properties: '8'
+  play-services-auth-api-phone.properties: '8'
+  play-services-auth-base.properties: '8'
+  play-services-auth.properties: '8'
+  play-services-base.properties: '8'
+  play-services-basement.properties: '8'
+  play-services-identity.properties: '8'
+  play-services-location.properties: '8'
+  play-services-measurement-base.properties: '8'
+  play-services-places-placereport.properties: '8'
+  play-services-stats.properties: '8'
+  play-services-tasks.properties: '8'
+  stamp-cert-sha256: '8'
+  okhttp3/internal/publicsuffix/publicsuffixes.gz: '0'
+usesFramework:
+  ids:
+  - 1
+  tag: null
+version: 2.7.0-dirty
+versionInfo:
+  versionCode: '12'
+  versionName: 1.2.5

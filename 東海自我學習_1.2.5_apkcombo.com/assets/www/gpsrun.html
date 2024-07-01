@@ -1,0 +1,252 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<title>東海自我學習</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Ion Icon Fonts-->
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	
+	<link rel="stylesheet" href="css/button.css">
+
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="css/flexslider.css">
+
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/owl.theme.default.min.css">
+	
+	<!-- Date Picker -->
+	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
+	<!-- Flaticons  -->
+	<link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="css/style.css">
+
+	<link rel="stylesheet" href="css/frt-jason.css">
+	<!-- jQuery -->
+	<!-- Cordova reference, this is added to your app when it's built. -->
+	<script src="cordova.js"></script>
+	<!-- <script src="scripts/platformOverrides.js"></script> -->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/frt-include.js"></script>
+	<script src="js/frt-jason.js"></script>
+	<script src="js/frt-lbs-neweraart.js"></script>
+	
+	<script src="js/lang.js"></script>
+
+	<script type="text/javascript">
+		function onBodyLoad() {
+		//瀏覽器語系
+		var Blan = (navigator.language || navigator.browserLanguage).toLowerCase();
+		//設定檔國家
+		if (Blan=='zh-tw'||Blan=='zh-cn'){
+				$.getJSON('languge/zh.json', translate);//變更語系預設抓中文
+		}else{
+			$.getJSON('languge/en.json', translate);//變更語系預設抓英文
+		}
+
+		    var permissions = cordova.plugins.permissions;
+    			//alert(permissions);
+    			permissions.hasPermission(permissions.ACTIVITY_RECOGNITION, function( status ){
+    			  if ( status.hasPermission ) {
+    			  }
+    			  else {
+    			  	permissions.requestPermission(permissions.ACTIVITY_RECOGNITION, success, error);
+
+    			  	function error() {
+    				  console.warn('ACTIVITY_RECOGNITION permission is not turned on');
+    				}
+
+    				function success( status ) {
+    				  if( !status.hasPermission ) error();
+    				}
+
+    			  }
+    			});
+
+		jQuery(document).ready(function ($) {
+			var sid = localStorage.getItem("id")
+			if (typeof sid === 'undefined' || sid === null || sid == '') {
+				if (Blan=='zh-tw'||Blan=='zh-cn'){
+                    alert('請先登入帳號');
+                }else{
+                    alert('Please login first');
+                }
+				window.location.assign('login.html');
+            	return;
+            }
+            // sessionStorage["GoPage"] = "task.html";
+		}); 
+
+	}
+	
+
+	</script>
+
+	<!-- <script type="text/javascript">
+		var SetMinute = 0;
+		function onStartTime(){
+			var mm = window.setInterval("Check_Time()", 1000);
+		}
+		function Check_Time() {
+				SetMinute += 1;
+				var Check_i = document.getElementById("Check_i");
+		
+				var Cal_Hour = Math.floor(SetMinute / 3600);
+				var Cal_Minute = Math.floor(Math.floor(SetMinute % 3600) / 60);
+				var Cal_Second = SetMinute % 60;
+		
+				Check_i.innerHTML = Cal_Hour + ":" + Cal_Minute + ":" + Cal_Second;
+			}
+	</script> -->
+
+	</head>
+	<body id="gps-run" onload="onBodyLoad()">
+		
+	<!-- <div class="colorlib-loader"></div> -->
+	<div id="loader" style="display:none;"></div>
+
+	<div id="page"  style="margin-bottom: 60px;  min-height: 100%; ">
+		
+		<div w3-include-html="menu.html"></div>
+
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<!--p class="bread">關於牛耳</p>-->
+					</div>
+				</div>
+			</div>
+		</div>		
+		<div>
+			<div class="container">
+				<div class="row row-pb-lg">
+					
+					<div class="col-xs-12 col-sm-12">
+						<div class="about-wrap">
+							<h4><label tkey="RunData"></label></h4>					
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12">
+						<span id="Check_Txt" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(43, 108, 151)"><label tkey="Timing"></label><span id="Check_i">0:0:0</span></span>
+					</div>
+	
+					<div class="col-xs-12 col-sm-12">
+							<div id="cur-loction" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(28, 31, 172)">&nbsp;&nbsp;</div><div id="cur-status" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(28, 31, 172)"></div>
+					</div>			
+					
+					<div class="col-xs-12 col-sm-12">
+							<span id="Check_Txt" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(214, 36, 36)"><label>
+								1.請等秒數開始計時後(GPS定位完成)，以跑走方式進行，若非跑走方式進行成績不予以計算。
+							</label></span>
+					</div>
+					
+					<div class="col-xs-12 col-sm-12">
+							<span id="Check_Txt" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(214, 36, 36)"><label>
+								2.因GPS會受環境因素影響，請勿在室內或建築物進行以免成績異常。
+							</label></span>
+					</div>
+
+					<div class="col-xs-12 col-sm-12">
+							<span id="Check_Txt" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(214, 36, 36)"><label>
+								3.跑走速率請介於1m-7m之間。
+							</label></span>
+					</div>
+
+					<div class="col-xs-12 col-sm-12">
+							<span id="Check_Txt" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(214, 36, 36)"><label>
+								4.運動場地形起伏過大，會導致GPS誤差。
+							</label></span>
+					</div>
+
+					<div class="col-xs-12 col-sm-12">
+							<span id="Check_Txt" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(214, 36, 36)"><label>
+								5.建議學生於每次結束跑走後，按上傳鍵上傳跑步數據。
+							</label></span>
+					</div>
+
+					<div class="col-xs-12 col-sm-12">
+							<span id="Check_Txt" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(214, 36, 36)"><label>
+								6.每次跑走距離：計算區間為800M-2000M。
+							</label></span>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+		<div w3-include-html="footer.html"></div>
+
+	</div>
+<!-- 
+	<div style=position:relative>
+		<a href="#" class="myButton">START</a>
+	</div> -->
+	
+	<script>
+		includeHTML();
+
+		<!--function buttonOn() {-->
+			<!--var permissions = cordova.plugins.permissions;-->
+			<!--permissions.hasPermission(permissions.ACTIVITY_RECOGNITION, function( status ){-->
+			  <!--if ( status.hasPermission ) {-->
+				<!--onDeviceReadyOfLBS();-->
+				<!--onStartTime();-->
+			  <!--}-->
+			  <!--else {-->
+			  	<!--permissions.requestPermission(permissions.ACTIVITY_RECOGNITION, success, error);-->
+
+			  	<!--function error() {-->
+				  <!--console.warn('ACTIVITY_RECOGNITION permission is not turned on');-->
+				<!--}-->
+
+				<!--function success( status ) {-->
+				  <!--if( !status.hasPermission ) error();-->
+				<!--}-->
+
+			  <!--}-->
+			<!--});-->
+		<!--}-->
+	</script>
+	
+	<!-- popper -->
+	<script src="js/popper.min.js"></script>
+	<!-- bootstrap 4.1 -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- jQuery easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Flexslider -->
+	<script src="js/jquery.flexslider-min.js"></script>
+	<!-- Owl carousel -->
+	<script src="js/owl.carousel.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/magnific-popup-options.js"></script>
+	<!-- Date Picker -->
+	<script src="js/bootstrap-datepicker.js"></script>
+	<!-- Stellar Parallax -->
+	<script src="js/jquery.stellar.min.js"></script>
+	<!-- Main -->
+	<script src="js/main.js"></script>
+
+	</body>
+</html>
+

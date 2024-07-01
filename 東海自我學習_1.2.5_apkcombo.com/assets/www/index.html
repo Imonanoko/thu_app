@@ -1,0 +1,330 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+	<title>東海自我學習</title>
+   	<meta charset="utf-8">
+   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
+
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Ion Icon Fonts-->
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="css/magnific-popup.css">
+
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="css/flexslider.css">
+
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/owl.theme.default.min.css">
+
+	<!-- Date Picker -->
+	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
+	<!-- Flaticons  -->
+	<link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/frt-jason.css">
+    <!-- Cordova reference, this is added to your app when it's built. -->
+    <script src="cordova.js"></script>
+    <!--<script src="scripts/platformOverrides.js"></script>-->
+
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>	
+
+	<script src="js/frt-include.js"></script>
+	<script src="js/frt-jason.js"></script>
+	<!--script src="js/frt-lbs-neweraart.js"></script>-->
+
+
+
+	<!--<script type="text/javascript" src="http://code.google.com/apis/gears/gears_init.js"></script>-->
+	<script src="js/lang.js"></script>
+
+	<script type="text/javascript">
+		var g_cru_version = '';
+		g_cru_version = '1.2.2';
+		//更新選項 1:取消 2:前往更新
+        function onUpdateNotifyConfirm(button) {
+            //alert('You selected button ' + button);
+            if (button == 2){
+                window.open(urlGo, '_system');
+                if (device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos") {
+                    window.open('https://play.google.com/store/apps/details?id=com.app.tunghai', '_system');
+                } else {
+                    //window.open('https://apps.apple.com/us/app/okuma-tackle-shop-location/id1241128174', '_system');
+                }
+                return;
+            }
+        }
+
+
+		function onBodyLoad() {
+		//瀏覽器語系
+		var Blan = (navigator.language || navigator.browserLanguage).toLowerCase();
+		//設定檔國家
+		if (Blan=='zh-tw'||Blan=='zh-cn'){
+				$.getJSON('languge/zh.json', translate);//變更語系預設抓中文
+		}else{
+			$.getJSON('languge/en.json', translate);//變更語系預設抓英文
+		}
+
+		jQuery(document).ready(function ($) {
+				//配合 main.js , 所以延長 200ms
+		setTimeout(function () {
+			$('#jason-back-button').hide(); //首頁需隱藏 back button
+		}, 200);
+		});
+
+		// $('#scroegps').html("0/50" + '<br/>' ); 
+
+		var sid = localStorage.getItem("id");
+		$('#sid').html(sid + '<br/>');
+
+		var sID = localStorage.getItem('id');
+    
+   		//抓圈數
+		$.ajax({
+			type: 'POST',
+			url: window.localStorage.getItem('TH_SERVER_URL') + "/TotalScore",
+			contentType: 'application/x-www-form-urlencoded',
+			dataType: 'text',
+			data: {
+				id:sid,
+			},
+			success: function (data) {
+				//alert('success:'+data);
+				myApp.hideProcessing();
+				var xmlDoc = $.parseXML(data);
+				var result = $(xmlDoc).text();
+				if(result=="Null"||result==""){
+					$('#Circle').html('0/50'+ '<br/>');
+				}else{
+					$('#Circle').html(result +'/50'+ '<br/>');
+				}
+
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				myApp.hideProcessing();
+				
+				if (navigator.notification)
+					navigator.notification.alert('Error to get data,' + textStatus + ': ' + errorThrown, null, 'error');
+				else
+					alert('Error to get data,' + textStatus + ': ' + errorThrown);
+			}
+		});
+
+		//檢查版本
+		if (typeof (cordova) == 'object') {
+                //alert('deviceready start');
+                document.addEventListener('deviceready', function () {
+                    console.log('on device ready');
+
+                    //檢查版本, 每次打開 App 之後只檢查一次
+                    if (sessionStorage["IS_CHECK_UPDATE"] != "true"){
+
+                        $.ajax({
+                            type: 'POST',
+                            url: window.localStorage.getItem('TH_SERVER_URL') + "/GetAppVersion",
+                            contentType: 'application/x-www-form-urlencoded',
+                            dataType: 'text',
+                            data: {
+                                OS: 'Android'
+                            },
+                            success: function (data, textStatus, jqXHR) {
+                                var xmlDoc = $.parseXML(data);
+                                var result = $(xmlDoc).text();
+                                console.log('result:' + result)
+                                var message = 'There is a new version, do you want to update?';
+                                var buttonlist = "Cancel,Update";
+                                var title = 'New Version';
+
+                                sessionStorage["IS_CHECK_UPDATE"] = true; //已經檢查過了
+                                var country_selected = localStorage["SETTING_COUNTRY"];
+                                if(Blan == 'zh-tw'||Blan=='zh-cn'){
+                                    message = '有新版本，您要更新嗎?';
+                                    buttonlist = '取消,確定';
+                                    title = '新版本';
+                                }else{
+                                    message = 'There is a new version, do you want to update?';
+                                    buttonlist = 'Cancel,Update';
+                                    title = 'New Version';
+                                }
+
+                                if (result != g_cru_version){
+                                    navigator.notification.confirm(
+                                        message,  // message
+                                        onUpdateNotifyConfirm,              // callback to invoke with index of button pressed
+                                        title,            // title
+                                        buttonlist          // buttonLabels
+                                    );
+                                }
+
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                            }
+
+                        });
+
+                    }
+
+
+                    //funCheckNetworkState(); //檢查網路是否有連線
+                    //return;
+
+                    var permissions = cordova.plugins.permissions;
+
+                    permissions.checkPermission(permissions.WRITE_EXTERNAL_STORAGE, success, error);
+
+
+                    function error() {
+                        console.log('WRITE_EXTERNAL_STORAGE permission is not turned on');
+                    }
+                    function success(status) {
+                        console.log('--> status.hasPermission:' + status.hasPermission);
+                        if (!status.hasPermission) {
+                            console.log('will request permission');
+                            permissions.requestPermission(
+                                permissions.WRITE_EXTERNAL_STORAGE,
+                                function (status) {
+                                    if (!status.hasPermission) error();
+                                },
+                                error);
+                        }
+                    }
+
+                    permissions.checkPermission(permissions.ACCESS_FINE_LOCATION, successCheckLocation, errorLocation);
+                    function errorLocation() {
+                        //alert('Location permission is not turned on');
+                    }
+                    function successCheckLocation(status) {
+                        console.log('--> status.hasPermission:' + status.hasPermission);
+                        if (!status.hasPermission) {
+                            console.log('will request permission');
+                            permissions.requestPermission(
+                                permissions.ACCESS_FINE_LOCATION,
+                                function (status) {
+                                    if (!status.hasPermission) errorLocation();
+                                },
+                                errorLocation);
+                        }
+                    }
+
+
+                }, false);
+            }
+            else {
+                console.log('has no cordova');
+            }
+	}
+	</script>
+
+	</head>
+
+
+
+	<body id="index" onload="onBodyLoad()">
+
+	<!-- <div id="loader" class="colorlib-loader" style="display:none"></div> -->
+	<div id="loader" style="display:none;"></div>
+
+	<div id="page">
+
+		<div w3-include-html="menu.html"></div>
+
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<!--p class="bread">關於牛耳</p>-->
+					</div>
+				</div>
+			</div>
+		</div>		
+		<div>
+			<div class="container">
+				<div class="row row-pb-lg">
+					
+					<div class="col-xs-12 col-sm-12">
+						<div class="about-wrap" id="sid" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(43, 108, 151)">
+							<!-- <h4><span style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(43, 108, 151)"><label tkey="studentinfo"></label></span></h4>					 -->
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12">
+						<div class="about-wrap">
+							<h4><span style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(43, 108, 151)"><label tkey="allscore"></label></span></h4>
+						</div>
+						<div class="about-wrap" id="Circle" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(43, 108, 151)"></div>
+					</div>
+
+					<div class="col-xs-12 col-sm-12">
+						<div class="about-wrap">
+							<span id="Check_Txt" style="font-size:20px; font-family:Microsoft JhengHei; color:rgb(214, 36, 36)"><label>
+								完成自我學習50者，預計3月底會匯入資料，並公告查詢方式。
+							</label></span>
+						</div>
+					</div>
+					<!-- <div class="col-xs-12 col-sm-12">
+						<div id="scroegps">					
+						</div>
+					</div> -->
+					<div class="col-xs-12 col-sm-12">
+						
+					</div>
+	
+					<div class="row">
+						<div>
+							<div id="cur-loction"></div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+	</div>
+
+
+	<script>
+		includeHTML();
+	</script>
+
+	<!-- popper -->
+	<script src="js/popper.min.js"></script>
+	<!-- bootstrap 4.1 -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- jQuery easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Flexslider -->
+	<script src="js/jquery.flexslider-min.js"></script>
+	<!-- Owl carousel -->
+	<script src="js/owl.carousel.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/magnific-popup-options.js"></script>
+	<!-- Date Picker -->
+	<script src="js/bootstrap-datepicker.js"></script>
+	<!-- Stellar Parallax -->
+	<script src="js/jquery.stellar.min.js"></script>
+	<!-- Main -->
+	<script src="js/main.js"></script>
+
+	</body>
+</html>
+
