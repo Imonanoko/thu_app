@@ -160,7 +160,7 @@ function showLocationInfo(location,from_source){
                }
 
 
-               if(k>3){
+               if(k>500){
                    k=0;
                    alert("速率異常，請勿使用其它工具跑步（已經超出1~7公尺範圍）");
                    c=c+1;
@@ -544,15 +544,15 @@ function StopRunCalculate(){
             alert('Time:'+parseTime+'-s','Distance:'+alld+'-m');
         }
 
-        // if(alld >= 799 && alld < 1200){
-        //     alld = 800;
-        // }else if (alld >= 1200 && alld < 1600){
-        //     alld = 1200;
-        // }else if (alld >= 1600 && alld < 2000){
-        //     alld = 1600;
-        // }else if(alld>2000){//超過2KM以2KM計算
-        //     alld = 2000;
-        // }
+        if(alld >= 799 && alld < 1200){
+            alld = 800;
+        }else if (alld >= 1200 && alld < 1600){
+            alld = 1200;
+        }else if (alld >= 1600 && alld < 2000){
+            alld = 1600;
+        }else if(alld>2000){//超過2KM以2KM計算
+            alld = 2000;
+        }
         //GPS資料
         var gpslog=localStorage.getItem('gpslog');
 
