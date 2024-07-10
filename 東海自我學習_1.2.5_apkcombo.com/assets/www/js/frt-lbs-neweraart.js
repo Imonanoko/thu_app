@@ -405,9 +405,9 @@ function Check_Time() {
 }
 // 全局变量
 let lastLocation = null;
-const minSpeed = 1.0; // 最小速度（米/秒）
-const maxSpeed = 1.5; // 最大速度（米/秒）
-const timeInterval = 1; // 时间间隔（秒）
+const minSpeed = 1.5; // 最小速度（米/秒）
+const maxSpeed = 2.0; // 最大速度（米/秒）
+const timeInterval = 2; // 时间间隔（秒）
 
 function generateFakeGPSData(lat, lon, speed, timeInterval) {
     // 根据当前坐标和速度生成新的坐标
@@ -565,7 +565,7 @@ function StopRunCalculate(){
         }else{
             runscore = [{alltime: parseTime, distance:alld, sTime: sdate,gpslog: gpslog}];
         }
-        //alert('runscore:'+runscore);
+        alert('runscore:'+runscore);
         localStorage.setItem('runlog',JSON.stringify(runscore));
         
         //刪除此筆總距離
@@ -607,7 +607,15 @@ function isParse(a){
         return false;
     }
 }
-
+function downloadFile(content, filename, contentType) {
+    const a = document.createElement('a');
+    const file = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(file);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
 
 //上傳資料
 function scoreUpdate() {
@@ -623,6 +631,13 @@ function scoreUpdate() {
     var sID = localStorage.getItem('id');
     var Today = new Date();
     var toDate = Today.getFullYear()+ "/" + (Today.getMonth()+1) + "/" + Today.getDate();
+    // Convert gpslog to a string if it's an object
+    if (typeof gpslog === 'object') {
+        gpslog = JSON.stringify(gpslog);
+    }
+
+    // Trigger the download
+    downloadFile(gpslog, 'gpslog.txt', 'text/plain');
 
     //先判斷有沒有上傳過
     $.ajax({
