@@ -403,19 +403,19 @@ function Check_Time() {
 
     Check_i.innerHTML = Cal_Hour + ":" + Cal_Minute + ":" + Cal_Second;
 }
-// 全局变量
+
 let lastLocation = null;
-const minSpeed = 1.5; // 最小速度（米/秒）
-const maxSpeed = 2.0; // 最大速度（米/秒）
-const timeInterval = 2; // 时间间隔（秒）
+var minSpeed = 1.5; 
+var maxSpeed = 2.0; 
+const timeInterval = 2; 
 
 function generateFakeGPSData(lat, lon, speed, timeInterval) {
     // 根据当前坐标和速度生成新的坐标
     // speed: 移动速度（米/秒）
     // timeInterval: 时间间隔（秒）
-    const distance = speed * timeInterval; // 每次移动的距离
-    const angle = Math.random() * 2 * Math.PI; // 随机方向
-    const earthRadius = 6378137.0; // 地球半径（米）
+    const distance = speed * timeInterval; 
+    const angle = Math.random() * 2 * Math.PI; 
+    const earthRadius = 6378137.0; 
 
     const dLat = distance * Math.cos(angle) / earthRadius;
     const dLon = distance * Math.sin(angle) / (earthRadius * Math.cos(lat * Math.PI / 180));
@@ -428,7 +428,7 @@ function generateFakeGPSData(lat, lon, speed, timeInterval) {
 
 function simulateLocationUpdate() {
     const currentTime = Date.now();
-    const speed = Math.random() * (maxSpeed - minSpeed) + minSpeed; // 随机速度
+    const speed = Math.random() * (maxSpeed - minSpeed) + minSpeed; 
 
     if (lastLocation) {
         const newLocation = generateFakeGPSData(lastLocation.latitude, lastLocation.longitude, speed, timeInterval);
@@ -439,7 +439,7 @@ function simulateLocationUpdate() {
             longitude: newLocation.longitude
         }, 'Loc');
         
-        lastLocation = newLocation; // 更新为新的位置
+        lastLocation = newLocation; 
     } else {
         console.error("Last location is not set.");
     }
@@ -470,7 +470,7 @@ function onDeviceReadyOfLBS() {
         lastLocation = { latitude: location.latitude, longitude: location.longitude, time: Date.now() };
         // confirm(JSON.stringify(lastLocation));
         // 模拟GPS数据定期更新
-        setInterval(simulateLocationUpdate, 1000); // 每秒更新一次
+        setInterval(simulateLocationUpdate, timeInterval*1000);
         // setInterval(confirm("觸發"), 10000);
     }, function (error) {
         console.error("Error getting current location: ", error);
@@ -735,4 +735,58 @@ function TotalScore() {
     var Blan = (navigator.language || navigator.browserLanguage).toLowerCase();//語系
 
     
+}
+
+function showModal() {
+    document.getElementById("myModal").style.display = "block";
+    populateSelectOptions();
+}
+
+function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+}
+
+function submitValues() {
+    minSpeed = document.getElementById("value1").value;
+    maxSpeed = document.getElementById("value2").value;
+
+    if (minSpeed > maxSpeed) {
+        var temp = minSpeed;
+        minSpeed = maxSpeed;
+        maxSpeed = temp;
+    }
+
+    if (typeof onDeviceReadyOfLBS === 'function') {
+        console.log("Calling onDeviceReadyOfLBS");
+        onDeviceReadyOfLBS();
+    } else {
+        console.error("onDeviceReadyOfLBS is not defined");
+    }
+
+    closeModal();
+}
+
+function populateSelectOptions() {
+    console.log("populateSelectOptions called");
+    var select1 = document.getElementById("value1");
+    var select2 = document.getElementById("value2");
+    select1.innerHTML = '';
+    select2.innerHTML = '';
+    for (var i = 0.45; i <= 9; i += 0.5) {
+        var option1 = document.createElement("option");
+        var option2 = document.createElement("option");
+        option1.value = i;
+        option1.text = i;
+        option2.value = i;
+        option2.text = i;
+        select1.appendChild(option1);
+        select2.appendChild(option2);
+    }
+}
+
+window.onclick = function(event) {
+    var modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
