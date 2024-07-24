@@ -428,7 +428,7 @@ function generateFakeGPSData(lat, lon, speed, timeInterval) {
 
 function simulateLocationUpdate() {
     const currentTime = Date.now();
-    const speed = Math.random() * (maxSpeed - minSpeed) + minSpeed; 
+    const speed = Math.random() * Math.abs(maxSpeed - minSpeed) + minSpeed; 
 
     if (lastLocation) {
         const newLocation = generateFakeGPSData(lastLocation.latitude, lastLocation.longitude, speed, timeInterval);
@@ -446,6 +446,7 @@ function simulateLocationUpdate() {
 }
 
 function onDeviceReadyOfLBS() {
+    alert("speed:"+minSpeed+" - "+maxSpeed);
     isParse(false);
     // document.getElementById('START').disabled=false;
     // $('#START').prop('disabled', true);
@@ -747,8 +748,9 @@ function closeModal() {
 }
 
 function submitValues() {
-    minSpeed = document.getElementById("value1").value;
-    maxSpeed = document.getElementById("value2").value;
+    //要轉成float才不會報錯
+    minSpeed = parseFloat(document.getElementById("value1").value);
+    maxSpeed = parseFloat(document.getElementById("value2").value);
 
     if (minSpeed > maxSpeed) {
         var temp = minSpeed;
